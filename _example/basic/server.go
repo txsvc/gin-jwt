@@ -6,7 +6,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/appleboy/gin-jwt/v2"
+	jwt "github.com/appleboy/gin-jwt/v2"
 	"github.com/gin-gonic/gin"
 )
 
@@ -117,6 +117,14 @@ func main() {
 
 	if err != nil {
 		log.Fatal("JWT Error:" + err.Error())
+	}
+
+	// When you use jwt.New(), the function is already automatically called for checking,
+	// which means you don't need to call it again.
+	errInit := authMiddleware.MiddlewareInit()
+
+	if errInit != nil {
+		log.Fatal("authMiddleware.MiddlewareInit() Error:" + errInit.Error())
 	}
 
 	r.POST("/login", authMiddleware.LoginHandler)

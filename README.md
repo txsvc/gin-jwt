@@ -53,7 +53,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/appleboy/gin-jwt/v2"
+	jwt "github.com/appleboy/gin-jwt/v2"
 	"github.com/gin-gonic/gin"
 )
 
@@ -164,6 +164,14 @@ func main() {
 
 	if err != nil {
 		log.Fatal("JWT Error:" + err.Error())
+	}
+
+	// When you use jwt.New(), the function is already automatically called for checking,
+	// which means you don't need to call it again.
+	errInit := authMiddleware.MiddlewareInit()
+
+	if errInit != nil {
+		log.Fatal("authMiddleware.MiddlewareInit() Error:" + errInit.Error())
 	}
 
 	r.POST("/login", authMiddleware.LoginHandler)
@@ -323,7 +331,7 @@ Use these options for setting the JWT in a cookie. See the Mozilla [documentatio
 
 	This is a provided function to be called on any refresh token endpoint. If the token passed in is was issued within the `MaxRefreshTime` time frame, then this handler will create/set a new token similar to the `LoginHandler`, and pass this token into `RefreshResponse`
 
-2. OPTIONAL: `RefreshResposne`:
+2. OPTIONAL: `RefreshResponse`:
 
 	This should likely return a JSON of the token back to the user, similar to `LoginResponse`
 
