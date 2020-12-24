@@ -12,6 +12,10 @@ This is a middleware for [Gin](https://github.com/gin-gonic/gin) framework.
 
 It uses [jwt-go](https://github.com/dgrijalva/jwt-go) to provide a jwt authentication middleware. It provides additional handler functions to provide the `login` api that will generate the token and an additional `refresh` handler that can be used to refresh tokens.
 
+## Security Issue
+
+Simple HS256 JWT token brute force cracker. Effective only to crack JWT tokens with weak secrets. **Recommendation**: Use strong long secrets or `RS256` tokens. See the [jwt-cracker reoisitory](https://github.com/lmammino/jwt-cracker).
+
 ## Usage
 
 Download and install using [go module](https://blog.golang.org/using-go-modules):
@@ -321,7 +325,7 @@ Use these options for setting the JWT in a cookie. See the Mozilla [documentatio
 
 	This is a provided function to be called on any logout endpoint, which will clear any cookies if `SendCookie` is set, and then call `LogoutResponse`.
 
-2. OPTIONAL: `LogoutResposne`
+2. OPTIONAL: `LogoutResponse`
 
 	This should likely just return back to the user the http status code, if logout was successful or not.
 
